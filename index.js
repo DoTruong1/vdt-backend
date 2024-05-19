@@ -38,7 +38,7 @@ const initApp = async () => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
-    app.use("/api/v1", routers);
+    app.use(process.env.API_PATH, routers);
 
     // Start the web server on the specified port.
     app.listen(port, () => {
