@@ -1,7 +1,11 @@
 const { use } = require("../routes")
+const {
+  User,
+} = require('../models');
+
 const utils = require("../utils")
 
-const User = require("../models").User
+// const User = require("../models").User
 
 let createUser = async (req, res, next) => {
   const user = req.body

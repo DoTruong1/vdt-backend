@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
-const database = require("./sequelize");
-const models = require("./models");
+const db_conn = require("./config/conect.database");
+const { User } = require("./models");
 
 const routers = require("./routes");
 require("dotenv").config();
@@ -27,11 +27,11 @@ const initApp = async () => {
   // You can use the .authenticate() function to test if the connection works.
 
   try {
-    await database.authenticate();
+    // await database.authenticate();
     console.log("Kết nối đến cơ sở dữ liệu thành công.");
-
+    await db_conn.dbConnect
     // Syncronize the Book model.
-    models.User.sync({ alter: true });
+    User.sync({ alter: true });
     console.log("Kết nối đến cơ sở dữ liệu thành công.");
 
     app.use(cors(corsOptions));
