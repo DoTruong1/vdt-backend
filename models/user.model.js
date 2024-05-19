@@ -1,5 +1,5 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
-const sequelize = require("../index")
+const sequelize = require("../sequelize/index")
 const User = sequelize.define('User',
 
   {
@@ -22,12 +22,9 @@ const User = sequelize.define('User',
     }
   }
   , {
-    timestamps: false,
+    timestamps: true,
     indexes: [{ unique: true, fields: ["id"] }],
   }
 );
 
-module.exports = {
-  User,
-  sequelize,
-};
+module.exports = User
