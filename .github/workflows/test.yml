@@ -23,6 +23,7 @@ jobs:
           MARIADB_USER: test
           MARIADB_PASSWORD: testuser4321
           MARIADB_DATABASE: test
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: true
         ports:
           - 3306:3306
     steps:
