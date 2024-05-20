@@ -1,0 +1,10 @@
+ node_modules
+ npm-debug*
+ .*.local
+ .*.test
+
+Dockerfile
+.dockerignore
+
+.git
+.github
