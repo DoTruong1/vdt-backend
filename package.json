@@ -5,7 +5,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "prod": "dotenvx run -f=.env --overload -- node index.js",
-    "dev": "dotenvx run -f .env.local --overload -- nodemon index.js"
+    "dev": "dotenvx run -f .env.local --overload -- nodemon index.js",
+    "sequelize:migrate": "dotenvx run -f .env.local -f env.test --overload -- npx sequelize-cli db:migrate",
+    "sequelize:seed": "dotenvx run -f .env.local -f env.test --overload --  npx sequelize-cli db:seed:all",
+    "test": "dotenvx run -f .env.local -f .env.test --overload -- jest --detectOpenHandles --force-exit --coverage"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.39.0",
@@ -22,6 +25,11 @@
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "superagent": "^9.0.2",
+    "supertest": "^7.0.0"
   }
 }
