@@ -11,7 +11,7 @@ env:
   DB_NAME: test
   DB_PORT: 3306
   DB_HOST: 127.0.0.1
-  COR_ORIGIN: http://localhost:5173
+  COR_ORIGIN: '*'
   API_PATH: /api/v1
 jobs:
   test:
@@ -36,11 +36,26 @@ jobs:
         with:
           node-version: '18.20.2'
           cache: 'npm'
+      - name: Set up .env file
+        run: |
+          touch .env.test 
+          echo "DB_USER=${DB_USER}" >> .env.test
+          echo "DB_PASSWORD=${DB_PASSWORD}" >> .env.test
+          echo "DB_NAME=${DB_NAME}" >> .env.test
+          echo "DB_PORT=${DB_PORT}" >> .env.test
+          echo "DB_HOST=${DB_HOST}" >> .env.test
+          echo "COR_ORIGIN=${COR_ORIGIN}" >> .env.test
+          echo "API_PATH=${API_PATH}" >> .env.test
+
       - name: Install dependencies
         run: npm install
+      - name: Migrate db
+        run: npm run sequelize:migrate
+      - name: Seed db data
+        run: npm run sequelize:seed
       - name: Run tests
         run: npm run test
-        
+
       # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       # - name: List files in the repository
