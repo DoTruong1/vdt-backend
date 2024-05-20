@@ -66,7 +66,7 @@ jobs:
       # - run: echo "🍏 This job's status is ${{ job.status }}."
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event.pull_request.merged == true  # run this job only for the main branch
+    if: github.ref == 'refs/heads/main' &&  ${{ github.event.pull_request.merged }}  # run this job only for the main branch
     needs: test
     environment: ci
     steps:
