@@ -28,7 +28,7 @@ afterAll(async () => {
 describe('User APIs Testing...', () => {
   test('List Users API...', async () => {
     const res = await request.get(USERS_API_PATH)
-    expect(res.statusCode).toBe(400);
+    expect(res.statusCode).toBe(200);
   });
 
   test('Create User API...', async () => {
