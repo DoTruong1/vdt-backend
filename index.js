@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.json())
 // app.use(cookieParser());
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const initApp = async () => {
   console.log("Kiểm tra kết nối đến cơ sở dữ liệu..");
