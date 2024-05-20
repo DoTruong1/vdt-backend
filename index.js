@@ -1,4 +1,5 @@
 const express = require("express");
+const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
@@ -10,11 +11,14 @@ require("dotenv").config();
 
 var corsOptions = {
   origin: process.env.COR_ORIGIN,
+  origin: process.env.COR_ORIGIN,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.json())
+// app.use(cookieParser());
 // app.use(bodyParser.json())
 // app.use(cookieParser());
 
