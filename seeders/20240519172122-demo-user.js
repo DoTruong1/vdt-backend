@@ -14,7 +14,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('users', [{
+    await queryInterface.bulkInsert('Users', [{
       id: uuid.v4(),
       name: 'John Doe',
       school: "Đại hoc quốc gia hà nội",

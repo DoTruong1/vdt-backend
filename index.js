@@ -3,7 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
 const db_conn = require("./config/conect.database");
-const { User } = require("./models");
+// const { User } = require("./models");
 
 const routers = require("./routes");
 require("dotenv").config();
@@ -27,13 +27,7 @@ const initApp = async () => {
   // You can use the .authenticate() function to test if the connection works.
 
   try {
-    // await database.authenticate();
-    console.log("Kết nối đến cơ sở dữ liệu thành công.");
-    await db_conn.dbConnect
-    // Syncronize the Book model.
-    User.sync({ alter: true });
-    console.log("Kết nối đến cơ sở dữ liệu thành công.");
-
+    await db_conn.dbConnect();
     app.use(cors(corsOptions));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
@@ -46,7 +40,11 @@ const initApp = async () => {
     });
   } catch (error) {
     console.error("Có lỗi khi kết nối đến cơ sở dữ liệu:", error.original);
+    process.exit(1);
+
   }
 };
 
 initApp();
+
+module.exports = app

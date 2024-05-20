@@ -8,11 +8,10 @@ const db = {};
 
 const config = require('../config/config')
 
-console.log(config.database)
 let sequelize = new Sequelize(config.database.database, config.database.username, config.database.password, {
-  host: config.development.host,
-  port: 3306,
-  dialect: config.development.dialect /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
+  host: config.database.host,
+  port: config.database.port,
+  dialect: config.database.dialect /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
 });
 
 fs
@@ -39,7 +38,6 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 // db.User = require('./user')(sequelize, Sequelize);
-
 module.exports = db;
 
 // module.exports = sequelize;

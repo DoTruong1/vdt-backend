@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "prod": "dotenvx run -f=.env --overload -- node index.js",
     "dev": "dotenvx run -f .env.local --overload -- nodemon index.js",
-    "sequelize:migrate": "dotenvx run -f .env.local --overload -- npx sequelize-cli db:migrate"
+    "sequelize:migrate": "dotenvx run -f .env.local -f env.test --overload -- npx sequelize-cli db:migrate",
+    "test": "dotenvx run -f .env.local -f .env.test --overload -- jest --detectOpenHandles --force-exit --coverage"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.39.0",

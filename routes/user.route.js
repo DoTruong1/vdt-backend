@@ -4,7 +4,6 @@ let userRoutes = require('express').Router();
 
 const userController = require("../controllers/user.controller")
 
-console.log("in user route")
 userRoutes.get("/", userController.getUsers)
 userRoutes.get("/:userID", userController.getUser)
 
