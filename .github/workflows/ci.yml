@@ -96,5 +96,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: "${{ steps.meta.outputs.tags }}:${{ steps.sha_short.outputs.sha_short }}"
+          tags: "${{ steps.meta.outputs.tags }}-${{ steps.sha_short.outputs.sha_short }}"
           labels: ${{ steps.meta.outputs.labels }}
