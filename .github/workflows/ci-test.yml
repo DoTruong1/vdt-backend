@@ -1,5 +1,5 @@
 name: Test code
-run-name: "Test nhánh ${{ github.ref_head }}, commit sha ${{ inputs.SHA || github.sha }} by @${{ github.actor }}"
+run-name: "Test nhánh ${{ github.head_ref }}, commit sha ${{ inputs.SHA || github.sha }} by @${{ github.actor }}"
 on:
   workflow_dispatch:
   push:
