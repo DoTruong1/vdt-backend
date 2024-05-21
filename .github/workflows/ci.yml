@@ -1,5 +1,5 @@
 name: VDT2024 CI
-run-name: ${{ github.actor }} CI PIPLINE nhánh ${{ github.ref }} 
+run-name: CI pipeline nhánh ${{ github.ref }}  
 on:
   workflow_dispatch:
   push:
@@ -15,7 +15,8 @@ env:
   COR_ORIGIN: '*'
   API_PATH: /api/v1
 jobs:
-  test:
+  run-jest-test:
+    name: Test code
     runs-on: ubuntu-latest
     services:
       mariadb:
@@ -57,22 +58,20 @@ jobs:
         run: npm run sequelize:seed
       - name: Run tests
         run: npm run test
-
-      # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      # - name: List files in the repository
-      #   run: |
-      #     ls ${{ github.workspace }}
-      # - run: echo "🍏 This job's status is ${{ job.status }}."
   build:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' &&  ${{ github.event.pull_request.merged }}  # run this job only for the main branch
-    needs: test
+    needs: run-jest-test
     environment: ci
     steps:
       -
         name: Checkout
         uses: actions/checkout@v4
+      - 
+        name: Set build tag
+        shell: bash
+        run: |
+          echo "BUILD_TAG=${LAST_COMMIT_SHA:0:7}" >> $GITHUB_ENV
       - 
         name: Docker meta
         id: meta
@@ -95,5 +94,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}:$GITHUB_ENV
           labels: ${{ steps.meta.outputs.labels }}
