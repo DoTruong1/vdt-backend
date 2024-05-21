@@ -69,8 +69,8 @@ jobs:
         uses: actions/checkout@v4
       - 
         name: Set build tag
-        shell: bash
         run: |
+          echo ${LAST_COMMIT_SHA:0:7}
           echo "BUILD_TAG=${LAST_COMMIT_SHA:0:7}" >> "$GITHUB_ENV"
       - 
         name: Docker meta
@@ -93,5 +93,5 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          tags: ${{ steps.meta.outputs.tags}}":$BUILD_TAG"
+          tags: ${{ steps.meta.outputs.tags}}":""$BUILD_TAG"
           labels: ${{ steps.meta.outputs.labels }}
