@@ -1,4 +1,4 @@
-name: VDT2024 CI
+name: Test code
 run-name: CI pipeline nhánh ${{ github.ref }}  
 on:
   workflow_dispatch:
