@@ -71,7 +71,7 @@ jobs:
         name: Set build tag
         shell: bash
         run: |
-          echo "BUILD_TAG=${LAST_COMMIT_SHA:0:7}" >> $GITHUB_ENV
+          echo "BUILD_TAG=${LAST_COMMIT_SHA:0:7}" >> "$GITHUB_ENV"
       - 
         name: Docker meta
         id: meta
@@ -93,6 +93,5 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: "${{ steps.meta.outputs.tags}} : ${{ env.BUILD_TAG }}"
+          tags: ${{ steps.meta.outputs.tags}}":$BUILD_TAG"
           labels: ${{ steps.meta.outputs.labels }}
