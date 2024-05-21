@@ -94,5 +94,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}:$GITHUB_ENV
+          tags: ${{ steps.meta.outputs.tags : env.BUILD_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
