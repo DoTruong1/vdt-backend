@@ -1,5 +1,5 @@
-name: VDT2024 CI
-run-name: ${{ github.actor }} CI PIPLINE nhánh ${{ github.ref }} 
+name: Test code
+run-name: "Test ${{ github.head_ref || github.ref_name	}}, event ${{ github.event_name	}}, commit sha ${{ inputs.SHA || github.sha }} by @${{ github.actor }}"
 on:
   workflow_dispatch:
   push:
@@ -15,7 +15,8 @@ env:
   COR_ORIGIN: '*'
   API_PATH: /api/v1
 jobs:
-  test:
+  run-jest-test:
+    name: Test code
     runs-on: ubuntu-latest
     services:
       mariadb:
@@ -57,43 +58,3 @@ jobs:
         run: npm run sequelize:seed
       - name: Run tests
         run: npm run test
-
-      # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      # - name: List files in the repository
-      #   run: |
-      #     ls ${{ github.workspace }}
-      # - run: echo "🍏 This job's status is ${{ job.status }}."
-  build:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' &&  ${{ github.event.pull_request.merged }}  # run this job only for the main branch
-    needs: test
-    environment: ci
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v4
-      - 
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/backend
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      -
-        name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
