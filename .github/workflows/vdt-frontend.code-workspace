@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../../vdt-frontend/vdt-frontend"
+		},
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../db"
+		},
+		{
+			"path": "../../../test"
+		}
+	],
+	"settings": {}
+}

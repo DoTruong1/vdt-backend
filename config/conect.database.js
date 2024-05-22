@@ -3,8 +3,17 @@ const AllModels = require('../models');
 
 exports.dbConnect = async () => {
 
-  await AllModels.sequelize.authenticate().then(() => {
+  await AllModels.sequelize.authenticate().then(async () => {
     console.info("kết nối đến cơ sở dữ liệu thành không");
+
+    console.info("Sync database.....")
+    await AllModels.sequelize.sync({ alter: true }).then(() => {
+      console.info("Sync database thành công")
+    }).catch((err) => {
+      console.error("Có lỗi khi Sync database: ", err.message);
+
+    });
+
   }).catch((err) => {
     console.error("Có lỗi khi kết nối đến cơ sở dữ liệu", err.message);
   });
