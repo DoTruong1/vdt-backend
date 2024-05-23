@@ -26,16 +26,27 @@ let createUser = async (req, res, next) => {
 
 let getUser = async (req, res, next) => {
   const { userID } = req.params
+
+  // if (userID === undefined) {
+  //   return res.status(400).json({
+  //     error: "Request để lấy thông tin người dùng không hợp lệ"
+  //   });
+  // }
   // console.log(userID)
   try {
     let user = await User.findByPk(userID)
-    // console.log(user)
-    res.status(200).json({
-      data: user,
-    });
-
+    if (user) {
+      return res.status(200).json({
+        data: user,
+      });
+    } else {
+      console.error("Không tìm thấy thông tin người dùng với id: " + userID)
+      return res.status(404).json({
+        error: "Không tìm thấy thông tin người dùng",
+      });
+    }
   } catch (error) {
-    res.json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }
 
@@ -53,7 +64,7 @@ let getUsers = async (req, res, next) => {
     // console.log(result)
     res.status(200).json(utils.paging.paginate(result, page, limit));
   } catch (error) {
-    resstatus(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 }
 
