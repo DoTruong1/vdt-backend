@@ -44,9 +44,15 @@ describe('User APIs Testing...', () => {
   });
 
 
-  test('Get one user by Id API...', async () => {
+  test('Get one user by Existed Id API...', async () => {
     const res = await request.get(USERS_API_PATH + `/${UserData.id}`)
     expect(res.statusCode).toBe(200);
+  });
+
+  test('Get one user by Not existewd Id API...', async () => {
+    const dummyUserId = "aa1a"
+    const res = await request.get(USERS_API_PATH + `/${dummyUserId}`)
+    expect(res.statusCode).toBe(404);
   });
 
   test('Update user info API', async () => {
