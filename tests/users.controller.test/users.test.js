@@ -73,7 +73,20 @@ describe('User APIs Testing...', () => {
       })
     // expect(UserData.name).toEqual(res.body.data.name);
     expect(res.statusCode).toBe(200);
+  })
+
+  test('Update user info API with woring id', async () => {
+    const dummyUserId = "aa1a"
+    const res = await request.put(USERS_API_PATH + `/${dummyUserId}`)
+      .send({
+        "name": "New Name",
+        "school": "Dai hoc cong nghe",
+        "gender": "male"
+      })
+    // expect(UserData.name).toEqual(res.body.data.name);
+    expect(res.statusCode).toBe(500);
   });
+
   test('Delete user API', async () => {
     const res = await request.delete(USERS_API_PATH + `/${UserData.id}`)
 

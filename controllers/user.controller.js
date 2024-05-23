@@ -105,19 +105,36 @@ let updateUserInfo = async (req, res, next) => {
   console.log("update user:" + userID)
   try {
     const user = await User.findByPk(userID);
-    await user.update({
-      id: userID,
-      name: newUserInfo.name,
-      school: newUserInfo.school,
-      gender: newUserInfo.gender
-    });
-    await user.save().then()
-    console.log("updated")
-    res.status(200).json({
-      "data": {
-        "id": userID
-      }
-    });
+    if (user) {
+      await user.update({
+        id: userID,
+        name: newUserInfo.name,
+        school: newUserInfo.school,
+        gender: newUserInfo.gender
+      }).then(async () => {
+        await user.save().then(() => {
+          return res.status(200).json({
+            "data": {
+              "id": userID
+            }
+          });
+        }).catch((err) => {
+          console.error({
+            msg: "update_req: Gặp lỗi khi cập nhật thông tin người dùng",
+            detail: err
+          })
+          return res.status(500).json({
+            error: "Gặp lỗi khi cập nhật thông tin người dùng"
+          })
+        })
+      });
+    } else {
+      return res.status(500).json({
+        error: "update_req: Gặp lỗi khi lấy thông tin người dùng, kiểm tra lại id người dùng"
+      })
+    }
+
+
 
   } catch (error) {
     res.json({ error: error.message });
