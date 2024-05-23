@@ -7,7 +7,7 @@ const {
   beforeAll
 } = require('@jest/globals');
 
-const conn = require('../../config/conect.database');
+const conn = require('../../config/connect.database');
 const app = require('../../index');
 // const AllModels = require('../../models');
 const request = require('supertest')(app);
