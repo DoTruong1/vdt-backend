@@ -41,6 +41,7 @@ let createUser = async (req, res, next) => {
         data: createdUser,
       });
     } else {
+      console.error("Có lỗi xảy ra khi tạo người dùng")
       return res.status(500).json({
         error: "Có lỗi xảy ra khi tạo người dùng",
       });
