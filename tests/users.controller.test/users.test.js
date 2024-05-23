@@ -93,5 +93,14 @@ describe('User APIs Testing...', () => {
     // expect(UserData.name).toEqual(res.body.data.name);
     expect(res.statusCode).toBe(200);
   });
+
+  test('Delete user API failed with wrong usẻ id', async () => {
+    const dummyUserId = "aa1a"
+
+    const res = await request.delete(USERS_API_PATH + `/${dummyUserId}`)
+
+    // expect(UserData.name).toEqual(res.body.data.name);
+    expect(res.statusCode).toBe(500);
+  });
 });
 

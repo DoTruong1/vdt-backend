@@ -145,13 +145,30 @@ let deleteUser = async (req, res, next) => {
   const { userID } = req.params;
   try {
     const user = await User.findByPk(userID);
-    await user.destroy()
+    if (user) {
+      await user.destroy().then(async () => {
+        return res.status(200).json({
+          "data": {
+            "id": userID
+          }
+        });
+      }).catch((err) => {
+        console.error({
+          msg: "delete_req: Gặp lỗi khi xoa thông tin người dùng",
+          detail: err
+        })
+        return res.status(500).json({
+          error: "Gặp lỗi khi xoá thông tin người dùng"
+        })
+      })
 
-    res.status(200).json({
-      "data": {
-        "id": userID
-      }
-    });
+    } else {
+      return res.status(500).json({
+        error: "delete_req: Gặp lỗi khi lấy thông tin người dùng, kiểm tra lại id người dùng"
+      })
+    }
+
+
 
   } catch (error) {
     res.json({ error: error.message });
