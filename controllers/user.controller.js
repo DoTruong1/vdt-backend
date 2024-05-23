@@ -8,6 +8,26 @@ const utils = require("../utils")
 
 let createUser = async (req, res, next) => {
   const user = req.body
+  const objKeys = Object.keys(user);
+  const requiredField = ["name", "school", "gender"];
+  const missingRequired = requiredField.reduce(
+    (missing, key) => {
+      if (!objKeys.includes(key)) {
+        missing.push(key);
+      }
+      return missing;
+    }, []
+  );
+  const hasRequiredKeys = missingRequired.length === 0;
+
+  if (!hasRequiredKeys) {
+    console.error("Thiếu một hoặc nhiều trường bắt buộc: " + missingRequired.toString())
+    return res.status(400).json({
+      detail: "Thiếu một hoặc nhiều trường bắt buộc: " + missingRequired.toString(),
+      error: "Thiếu một hoặc nhiều trường bắt buộc"
+    })
+  }
+
   // console.log
   try {
     let createdUser = await User.create({
@@ -15,12 +35,20 @@ let createUser = async (req, res, next) => {
       school: user.school,
       gender: user.gender
     })
-    res.status(200).json({
-      data: createdUser,
-    });
+
+    if (createdUser) {
+      return res.status(200).json({
+        data: createdUser,
+      });
+    } else {
+      return res.status(500).json({
+        error: "Có lỗi xảy ra khi tạo người dùng",
+      });
+    }
+
 
   } catch (error) {
-    res.json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 }
 
