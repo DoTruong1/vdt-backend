@@ -53,7 +53,7 @@ let getUsers = async (req, res, next) => {
     // console.log(result)
     res.status(200).json(utils.paging.paginate(result, page, limit));
   } catch (error) {
-    res.json({ error: error.message });
+    resstatus(500).json({ error: error.message });
   }
 }
 
