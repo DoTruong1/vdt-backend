@@ -7,7 +7,9 @@ const utils = require("../utils")
 // const User = require("../models").User
 
 let createUser = async (req, res, next) => {
-  const user = req.body
+  const user = req.body;
+
+
   const objKeys = Object.keys(user);
   const requiredField = ["name", "school", "gender"];
   const missingRequired = requiredField.reduce(
