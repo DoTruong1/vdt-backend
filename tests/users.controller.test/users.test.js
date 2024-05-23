@@ -43,6 +43,15 @@ describe('User APIs Testing...', () => {
     expect(res.statusCode).toBe(200);
   });
 
+  test('Create User API Missing required field...', async () => {
+    const res = await request.post(USERS_API_PATH)
+      .send({
+        name: 'Ramdom Name',
+        school: 'Random School',
+      });
+    expect(res.statusCode).toBe(400);
+  });
+
 
   test('Get one user by Existed Id API...', async () => {
     const res = await request.get(USERS_API_PATH + `/${UserData.id}`)
