@@ -29,21 +29,21 @@ const initApp = async () => {
   // You can use the .authenticate() function to test if the connection works.
 
   try {
-    const isConnectedToDB = await db_conn.dbConnect()
-    if (isConnectedToDB) {
-      app.use(cors());
-      app.use(express.json());
-      app.use(express.urlencoded({ extended: true }));
+    await db_conn.dbConnect()
+    // if (isConnectedToDB) {
+    app.use(cors());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
-      app.use(process.env.API_PATH, routers);
+    app.use(process.env.API_PATH, routers);
 
-      // Start the web server on the specified port.
-      app.listen(port, () => {
-        console.log(`Khởi tạo server ở: http://localhost:${port}`);
-      });
-    } else {
-      console.error("Có lỗi xảy ra khi kết nối đến db")
-    }
+    // Start the web server on the specified port.
+    app.listen(port, () => {
+      console.log(`Khởi tạo server ở: http://localhost:${port}`);
+    });
+    // } else {
+    //   console.error("Có lỗi xảy ra khi kết nối đến db")
+    // }
 
 
   } catch (error) {

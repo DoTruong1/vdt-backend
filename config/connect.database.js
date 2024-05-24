@@ -9,10 +9,10 @@ exports.dbConnect = async () => {
     console.info("Sync database.....")
     await AllModels.sequelize.sync({ alter: true }).then(() => {
       console.info("Sync database thành công")
-      return true
+      // return true
     }).catch((err) => {
       console.error("Có lỗi khi Sync database: ", err.message);
-      return false
+      // return false
     });
 
   }).catch((err) => {
