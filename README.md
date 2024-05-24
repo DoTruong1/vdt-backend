@@ -2,7 +2,6 @@
 
 [](https://github.com/DoTruong1/vdt-backend/actions/workflows/ci-test.yml)
 
-
 ## Environment Variables
 
 | Tên biến        | Mô tả                                  |
@@ -26,8 +25,6 @@ cd vdt-backend
 npm install
 ```
 
-
-
 ##### Bước 2: Thiết lập file ``.env.local``  cho môi trường dev
 
 ```vim
@@ -45,13 +42,27 @@ API_PATH=<đường dẫn tương đối của api>
 npm run dev
 ```
 
-
-
 # Build docker image của ứng dụng
 
 ```bash
 docker built -t <Tên repository>/<tên image>:<tag> .
 ```
+
+# Cách chạy docker image của ứng dụng
+
+```bash
+
+```
+
+# Các đầu api
+
+| Method   | URL                      | Description                                    |
+| -------- | ------------------------ | ---------------------------------------------- |
+| `GET`    | `/api/v1/users`          | Lấy danh sách users                            |
+| `POST`   | `/api/v1/posts`          | Tạo một user mới                               |
+| `GET`    | `/api/v1/users/{userID}` | Lấy thông tin của user có Id là {userID}       |
+| `PATCH`  | `/api/v1/users/{userID}` | Cập nhật thông tin của user có id là {userId}. |
+| `DELETE` | /api/v1/users/{userID}   | Xoá user có id là {userId}.                    |
 
 # Thank you :)
 
