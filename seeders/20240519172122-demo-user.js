@@ -18,7 +18,11 @@ module.exports = {
       id: uuid.v4(),
       name: 'John Doe',
       school: "Đại hoc quốc gia hà nội",
-      gender: "nam"
+      gender: "Nam",
+      email: "ramdom email",
+      birthDay: "11/11/2222",
+      phone: 11011,
+      nation: "VN"
     }], {});
   },
 

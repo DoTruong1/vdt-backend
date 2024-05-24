@@ -89,7 +89,7 @@ describe('User APIs Testing...', () => {
       .send({
         "name": "New Name",
         "school": "Dai hoc cong nghe",
-        "gender": "male",
+        "gender": "Nam",
         "email": "ramdom email",
         "birthDay": "11/11/2222",
         "phone": 11011,
