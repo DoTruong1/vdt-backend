@@ -1,9 +1,12 @@
-# VDT backend 2024
+# Node.js-Sequelize-Express-Boilerplate
 
-[](https://github.com/DoTruong1/vdt-backend/actions/workflows/ci-test.yml)
+## _with CICD and Jest test framework_
 
+[](https://github.com/FranklinThaker/NodeJs-Sequelize-Express-Jest-CICD-BoilerPlate/actions/workflows/ci.yml)
 
-## Environment Variables
+## 
+
+### Environment Variables
 
 | Tên biến        | Mô tả                                  |
 | --------------- |:-------------------------------------- |
@@ -14,11 +17,11 @@
 | **DB_PORT**     | Cổng triển khai của cơ sở dữ liệu      |
 | **API_PATH**    | Path của API VD: api/v1                |
 
-## Cách cài đặt
+### Cách cài đặt
 
 Ứng dụng được viết với [Node.js](https://nodejs.org/) ở phiên bản v18.12.0.
 
-##### Bước 1: Cài các dependency
+###### Bước 1: Cài các dependency
 
 ```bash
 git clone https://github.com/DoTruong1/vdt-backend.git
@@ -28,7 +31,7 @@ npm install
 
 
 
-##### Bước 2: Thiết lập file ``.env.local``  cho môi trường dev
+###### Bước 2: Thiết lập file ``.env.local``  cho môi trường dev
 
 ```vim
 DB_USER=<tên user database>
@@ -56,3 +59,10 @@ docker built -t <Tên repository>/<tên image>:<tag> .
 # Thank you :)
 
 # 
+
+## Feel free to connect with me on:
+
+```sh
+https://www.instagram.com/axel_blaze_csgo/
+https://www.youtube.com/c/FranklinThaker
+```
