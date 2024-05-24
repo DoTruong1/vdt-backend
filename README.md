@@ -62,7 +62,7 @@ docker built -t <Tên repository>/<tên image>:<tag> .
 | `POST`   | `/api/v1/posts`          | Tạo một user mới                               |
 | `GET`    | `/api/v1/users/{userID}` | Lấy thông tin của user có Id là {userID}       |
 | `PATCH`  | `/api/v1/users/{userID}` | Cập nhật thông tin của user có id là {userId}. |
-| `DELETE` | /api/v1/users/{userID}   | Xoá user có id là {userId}.                    |
+| `DELETE` | `/api/v1/users/{userID}`   | Xoá user có id là {userId}.                    |
 
 # Thank you :)
 
