@@ -61,7 +61,7 @@ jobs:
   publish-docker:
     runs-on: ubuntu-latest
     needs: run-jest-test
-    if: github.head_ref == 'main' || github.ref_name == 'main' # run this job only for the main branch
+    # if: github.head_ref == 'main' || github.ref_name == 'main' # run this job only for the main branch
     environment: ci
     steps:
       -
@@ -100,3 +100,21 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: "${{ steps.meta.outputs.tags }}-${{ steps.sha_short.outputs.sha_short }}"
           labels: ${{ steps.meta.outputs.labels }}
+      - name: Trigger update workflow in the manifests repository
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'DoTruong1',
+              repo: 'ansible',
+              workflow_id: 'update-tags.yaml',
+              ref: 'main',
+              inputs: {
+                message: '${{ steps.git-message.outputs.message }}',
+                image: "${{ secrets.DOCKERHUB_USERNAME }}/backend"
+                tags: ${{ steps.meta.outputs.tags }}-${{ steps.sha_short.outputs.sha_short }}',
+                sha: '${{ steps.git-sha.outputs.sha }}'
+              }
+            })
+
