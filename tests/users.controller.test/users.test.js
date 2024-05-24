@@ -37,6 +37,10 @@ describe('User APIs Testing...', () => {
         name: 'Ramdom Name',
         school: 'Random School',
         gender: 'mail',
+        email: "ramdom email",
+        birthDay: "11/11/2222",
+        phone: 11011,
+        nation: "VN"
       });
     UserData = res.body.data
     console.log(res.body)
@@ -69,7 +73,11 @@ describe('User APIs Testing...', () => {
       .send({
         "name": "New Name",
         "school": "Dai hoc cong nghe",
-        "gender": "male"
+        "gender": "male",
+        "email": "ramdom email",
+        "birthDay": "11/11/2222",
+        "phone": 11011,
+        "nation": "VN"
       })
     // expect(UserData.name).toEqual(res.body.data.name);
     expect(res.statusCode).toBe(200);
@@ -81,7 +89,11 @@ describe('User APIs Testing...', () => {
       .send({
         "name": "New Name",
         "school": "Dai hoc cong nghe",
-        "gender": "male"
+        "gender": "Nam",
+        "email": "ramdom email",
+        "birthDay": "11/11/2222",
+        "phone": 11011,
+        "nation": "VN"
       })
     // expect(UserData.name).toEqual(res.body.data.name);
     expect(res.statusCode).toBe(500);
