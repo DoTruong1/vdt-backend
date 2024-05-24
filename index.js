@@ -2,18 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
-const db_conn = require("./config/conect.database");
+const db_conn = require("./config/connect.database");
 // const { User } = require("./models");
 
 const routers = require("./routes");
 require("dotenv").config();
 
-var corsOptions = {
-  origin: process.env.COR_ORIGIN,
-  origin: process.env.COR_ORIGIN,
-};
+// var corsOptions = {
+//   origin: process.env.COR_ORIGIN,
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.json())
@@ -30,8 +29,9 @@ const initApp = async () => {
   // You can use the .authenticate() function to test if the connection works.
 
   try {
-    await db_conn.dbConnect();
-    app.use(cors(corsOptions));
+    await db_conn.dbConnect()
+    // if (isConnectedToDB) {
+    app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
@@ -41,8 +41,13 @@ const initApp = async () => {
     app.listen(port, () => {
       console.log(`Khởi tạo server ở: http://localhost:${port}`);
     });
+    // } else {
+    //   console.error("Có lỗi xảy ra khi kết nối đến db")
+    // }
+
+
   } catch (error) {
-    console.error("Có lỗi khi kết nối đến cơ sở dữ liệu:", error.original);
+    console.error("Có lỗi khi khởi tạo ứng dụng", error);
     process.exit(1);
 
   }
