@@ -1,7 +1,7 @@
 const {
   User,
 } = require('../models');
-
+const moment = require('moment');
 const utils = require("../utils")
 
 // const User = require("../models").User
@@ -71,6 +71,8 @@ let getUser = async (req, res, next) => {
   try {
     let user = await User.findByPk(userID)
     if (user) {
+      // console.log(user)
+
       return res.status(200).json({
         data: user,
       });
