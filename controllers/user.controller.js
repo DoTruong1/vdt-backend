@@ -35,7 +35,11 @@ let createUser = async (req, res, next) => {
     let createdUser = await User.create({
       name: user.name,
       school: user.school,
-      gender: user.gender
+      gender: user.gender,
+      email: user.email,
+      birthDay: user.birthDay,
+      phone: user.phone,
+      nation: user.nation
     })
 
     if (createdUser) {
@@ -110,7 +114,11 @@ let updateUserInfo = async (req, res, next) => {
         id: userID,
         name: newUserInfo.name,
         school: newUserInfo.school,
-        gender: newUserInfo.gender
+        gender: newUserInfo.gender,
+        email: newUserInfo.email,
+        birthDay: newUserInfo.birthDay,
+        phone: newUserInfo.phone,
+        nation: newUserInfo.nation
       }).then(async () => {
         await user.save().then(() => {
           return res.status(200).json({
@@ -167,9 +175,6 @@ let deleteUser = async (req, res, next) => {
         error: "delete_req: Gặp lỗi khi lấy thông tin người dùng, kiểm tra lại id người dùng"
       })
     }
-
-
-
   } catch (error) {
     res.json({ error: error.message });
 
