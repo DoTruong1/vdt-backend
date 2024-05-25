@@ -11,7 +11,7 @@ require("dotenv").config();
 // var corsOptions = {
 //   origin: process.env.COR_ORIGIN,
 // };
-// test cache
+// Cache me baby
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
