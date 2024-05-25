@@ -100,7 +100,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: "${{ steps.meta.outputs.tags }}-${{ steps.sha_short.outputs.sha_short }}"
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest,mode=max
       # - name: Trigger update workflow in the manifests repository
       #   uses: actions/github-script@v6
