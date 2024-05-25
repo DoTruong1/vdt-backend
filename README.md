@@ -69,11 +69,6 @@ CMD [ "dumb-init", "node", "index.js" ]
 
 # Output câu lệnh build và docker history
 
-https://ibb.co/3dsPcdF
-https://ibb.co/n62t392
-https://ibb.co/jGYkwS9
-https://ibb.co/Z1Nc8yC
-
 ## Thông tin của câu lệnh
 
 ![](https://i.ibb.co/Jmxkrkf/image.png)
@@ -86,7 +81,7 @@ https://ibb.co/Z1Nc8yC
 
 ## Output thời gian build của image trên github action
 
-![](https://i.ibb.co/GcQ2yNz/image.png)
+![](/Users/dotruong/Library/Application%20Support/marktext/images/2024-05-25-01-52-45-image.png)
 
 # Build docker image của ứng dụng
 
