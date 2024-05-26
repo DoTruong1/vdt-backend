@@ -33,8 +33,8 @@ module.exports = {
         defaultValue: "Không có dữ liệu"
       },
       phone: {
-        type: DataTypes.SMALLINT.UNSIGNED,
-        allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       nation: {
         type: DataTypes.STRING,

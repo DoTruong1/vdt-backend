@@ -130,6 +130,10 @@ dist
 .pnp.*
 .DS_Store
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 .DS_Store
 >>>>>>> main
+=======
+.DS_Store
+>>>>>>> d6a5ccd (.DS_Store fu!)
