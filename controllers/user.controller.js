@@ -90,16 +90,22 @@ let getUser = async (req, res, next) => {
 let getUsers = async (req, res, next) => {
   const page = utils.parser.tryParseInt(req.query.page, 0);
   const limit = utils.parser.tryParseInt(req.query.limit, 10);
-  // console.log("in get users")
   try {
-    const result = await User.findAndCountAll({
-      where: {},
-      offset: limit * page,
-      limit: limit,
-      order: [["name", "ASC"]],
-    })
-    // console.log(result)
-    res.status(200).json(utils.paging.paginate(result, page, limit));
+    if (req.query.page && req.query.limit) {
+      const result = await User.findAndCountAll({
+        where: {},
+        offset: limit * page,
+        limit: limit,
+        order: [["name", "ASC"]],
+      })
+      // console.log(result)
+      return res.status(200).json(utils.paging.paginate(result, page, limit));
+    } else {
+      const result = await User.findAll();
+      return res.status(200).json({
+        data: result
+      })
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
