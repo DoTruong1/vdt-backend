@@ -66,54 +66,46 @@ jobs:
           op: encode
           in: ${{ steps.meta.outputs.tag }}
           
-  # modify_image_tag:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   environment: ci
+  modify_image_tag:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: ci
     
-  #   steps:
-  #     - uses: cloudposse/github-action-secret-outputs@main
-  #       id: tag
-  #       with:
-  #           ## PASSWORD is a gpg passphrase stored in Github Secrets.          
-  #           secret: ${{ secrets.GITOPS_TOKEN }}
-  #           op: decode
-  #           in: ${{ needs.build.outputs.tag }}
-  #     - env:
-  #         GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-  #         GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
-  #         RUN_NUMBER: ${{ github.run_number }}
-  #         TAG: ${{ steps.tag.outputs.out }}
-  #       run: echo "$TAG"
+    steps:
       - uses: actions/checkout@v3
         name: Changing the deployment of git repo
         with:
           repository: DoTruong1/vdt-backend-config-repo
           token: ${{ secrets.GITOPS_TOKEN }}
           ref: main
-          path: ./config
+      - uses: cloudposse/github-action-secret-outputs@main
+        id: tag
+        with:
+            ## PASSWORD is a gpg passphrase stored in Github Secrets.          
+            secret: ${{ secrets.GITOPS_TOKEN }}
+            op: decode
+            in: ${{ needs.build.outputs.tag }}
+      - env:
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
+          RUN_NUMBER: ${{ github.run_number }}
+          TAG: ${{ steps.tag.outputs.out }}
+        run: echo "$TAG"
       - name: modify the image
         run: |
           echo $TAG
-          cd ./config
-          git config user.email "aa@gmail.com"
-          git config user.name ${{ secrets.GIT_USERNAME }}
           echo “Working Directory: $(pwd)”
-        
-          # Navigate to the specific Helm chart directory
-          
-          # Print values.yaml for debugging before changes
-          echo “Before modification:”
-          cat values.yaml
-          
           sed -i '/^image:/,/^ tag:/{s/^ tag: .*/ tag: "'${{ steps.meta.outputs.tags }}'"/}' values.yaml
-          
           # Print values.yaml for debugging after changes
           echo “After modification:”
-          cat values.yaml
-          
+          cat values.yaml  
+
+      - name: publish new image
+        run: |
+          git config user.email 'aa@gmail.com'
+          git config user.name 'DoTruong'
           git add values.yaml
           git commit -m “Update image tag by Github Actions Job change manifest: ${{ github.run_number }}”
-          git push origin main
+          git push 
       
          
