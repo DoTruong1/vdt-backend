@@ -85,6 +85,7 @@ jobs:
       - name: modify the image
         run: |
           echo $TAG
+          cd ./config
           git config user.email "aa@gmail.com"
           git config user.name ${{ secrets.GIT_USERNAME }}
           echo “Working Directory: $(pwd)”
