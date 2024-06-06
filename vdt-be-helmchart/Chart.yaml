@@ -1,5 +1,5 @@
 apiVersion: v2
-name: vdt-be-helmchart
+name: vdt-be
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
