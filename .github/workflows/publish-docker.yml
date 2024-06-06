@@ -72,7 +72,8 @@ jobs:
         with:
           repository: DoTruong1/vdt-backend-config-repo
           token: ${{ secrets.GITOPS_TOKEN }}
-          ref: HEAD
+          ref: master
+          path: config
       - name: modify the image
         run: |
           git config user.email ${{ secrets.email }}
@@ -80,7 +81,6 @@ jobs:
           echo “Working Directory: $(pwd)”
         
           # Navigate to the specific Helm chart directory
-          cd helm-chart-dir
           
           # Print values.yaml for debugging before changes
           echo “Before modification:”
