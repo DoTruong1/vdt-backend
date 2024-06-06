@@ -1,0 +1,75 @@
+---
+# Source: vdt-be-helmchart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-vdt-be-helmchart
+  labels:
+    helm.sh/chart: vdt-be-helmchart-0.1.0
+    app.kubernetes.io/name: vdt-be-helmchart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: vdt-be-helmchart
+    app.kubernetes.io/instance: release-name
+---
+# Source: vdt-be-helmchart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-vdt-be-helmchart
+  labels:
+    helm.sh/chart: vdt-be-helmchart-0.1.0
+    app.kubernetes.io/name: vdt-be-helmchart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vdt-be-helmchart
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: vdt-be-helmchart-0.1.0
+        app.kubernetes.io/name: vdt-be-helmchart
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: vdt-be-helmchart
+          securityContext:
+            {}
+          image: "dotruong1910/backend:main-1f4acb8"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DB_USER
+              value: "vdt"
+            - name: DB_PASSWORD
+              value: "vdt1234"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_HOST
+              value: "mariadb.database"
+            - name: API_PATH
+              value: "/api/v1"
+            - name: PORT
+              value: "3000"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
