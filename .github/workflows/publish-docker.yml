@@ -90,10 +90,10 @@ jobs:
         run: |
           echo $TAG
           echo “Working Directory: $(pwd)”
-          sed -i '/^image:/,/^ tag:/{s/^ tag: .*/ tag: "'$TAG'"/}' values.yaml
+          sed -i.bak '/^image:/,/^[^ ]/ s/^\( *\)tag:.*/\1tag: "'"$TAG"'"/' values.yaml
           # Print values.yaml for debugging after changes
-          echo “After modification:”
-          cat values.yaml  
+          # echo “After modification:”
+          # cat values.yaml  
 
       - name: publish new image
         run: |
