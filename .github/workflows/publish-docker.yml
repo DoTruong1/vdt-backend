@@ -68,7 +68,7 @@ jobs:
       - name: test
         id: test
         run: |
-          echo "mytag=${{ steps.meta.outputs.tags }}" >> $GITHUB_OUTPUT
+          echo "mytag=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
   modify_image_tag:
     needs: build
     runs-on: ubuntu-latest
