@@ -8,8 +8,8 @@ on:
   push:
     tags:
       - 'v*'
-    branches:
-      - "main"
+    # branches:
+    #   - "main"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -57,5 +57,6 @@ jobs:
           # push: ${{ github.event_name != 'pull_request' }}
           tags: "${{ steps.meta.outputs.tags }}"
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest,mode=max
