@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ci
     outputs: 
-      tag: ${{ steps.tag.outputs.out }}
+      tag: ${{ steps.test.outputs.mytag }}
     steps:
       -
         name: Checkout
@@ -65,12 +65,14 @@ jobs:
           secret: ${{ secrets.GITOPS_TOKEN }}
           op: encode
           in: ${{ steps.meta.outputs.tag }}
-          
+      - name: test
+        id: test
+        run: |
+          echo "mytag=${{ steps.meta.outputs.tags }}" >> $GITHUB_OUTPUT
   modify_image_tag:
     needs: build
     runs-on: ubuntu-latest
     environment: ci
-    
     steps:
       - uses: actions/checkout@v3
         name: Changing the deployment of git repo
@@ -78,24 +80,17 @@ jobs:
           repository: DoTruong1/vdt-backend-config-repo
           token: ${{ secrets.GITOPS_TOKEN }}
           ref: main
-      - uses: cloudposse/github-action-secret-outputs@main
-        id: tag
-        with:
-            ## PASSWORD is a gpg passphrase stored in Github Secrets.          
-            secret: ${{ secrets.GITOPS_TOKEN }}
-            op: decode
-            in: ${{ needs.build.outputs.tag }}
       - env:
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
           GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
           RUN_NUMBER: ${{ github.run_number }}
-          TAG: ${{ steps.tag.outputs.out }}
+          TAG: ${{ needs.build.outputs.tag }}
         run: echo "$TAG"
       - name: modify the image
         run: |
           echo $TAG
           echo “Working Directory: $(pwd)”
-          sed -i '/^image:/,/^ tag:/{s/^ tag: .*/ tag: "'${{ steps.meta.outputs.tags }}'"/}' values.yaml
+          sed -i '/^image:/,/^ tag:/{s/^ tag: .*/ tag: "'$TAG'"/}' values.yaml
           # Print values.yaml for debugging after changes
           echo “After modification:”
           cat values.yaml  
@@ -105,7 +100,7 @@ jobs:
           git config user.email 'aa@gmail.com'
           git config user.name 'DoTruong'
           git add values.yaml
-          git commit -m “Update image tag by Github Actions Job change manifest: ${{ github.run_number }}”
+          git commit -m "Update image tag by Github Actions Job change manifest: ${{ github.run_number }}"
           git push 
       
          
