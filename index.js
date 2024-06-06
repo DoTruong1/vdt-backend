@@ -9,10 +9,7 @@ const heatlthCheckRouters = require("./routes/healthCheck.route")
 const routers = require("./routes");
 require("dotenv").config();
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
