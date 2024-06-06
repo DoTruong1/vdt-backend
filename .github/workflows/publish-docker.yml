@@ -72,7 +72,12 @@ jobs:
       RUN_NUMBER: ${{ github.run_number }}
       TAG: ${{ needs.build.outputs.tag }}
     steps:
-          
+      - uses: actions/checkout@v3
+        name: Changing the deployment of git repo
+        with:
+          repository: DoTruong1/vdt-backend-config-repo
+          token: ${{ secrets.GITOPS_TOKEN }}
+          ref: main
       - name: modify image tag
         run: |
           echo $TAG
