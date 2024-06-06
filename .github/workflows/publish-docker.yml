@@ -58,13 +58,6 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest,mode=max
       
-      - uses: cloudposse/github-action-secret-outputs@main
-        id: tag
-        with:
-            ## PASSWORD is a gpg passphrase stored in Github Secrets.
-          secret: ${{ secrets.GITOPS_TOKEN }}
-          op: encode
-          in: ${{ steps.meta.outputs.tag }}
       - name: test
         id: test
         run: |
@@ -73,20 +66,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: ci
+    env:
+      GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+      GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
+      RUN_NUMBER: ${{ github.run_number }}
+      TAG: ${{ needs.build.outputs.tag }}
     steps:
-      - uses: actions/checkout@v3
-        name: Changing the deployment of git repo
-        with:
-          repository: DoTruong1/vdt-backend-config-repo
-          token: ${{ secrets.GITOPS_TOKEN }}
-          ref: main
-      - env:
-          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-          GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
-          RUN_NUMBER: ${{ github.run_number }}
-          TAG: ${{ needs.build.outputs.tag }}
-        run: echo "$TAG"
-      - name: modify the image
+          
+      - name: modify image tag
         run: |
           echo $TAG
           echo “Working Directory: $(pwd)”
