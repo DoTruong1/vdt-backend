@@ -9,6 +9,10 @@ const heatlthCheckRouters = require("./routes/healthCheck.route")
 const routers = require("./routes");
 require("dotenv").config();
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,8 +23,7 @@ const port = process.env.PORT || 3000;
 const initApp = async () => {
   console.log("Kiểm tra kết nối đến cơ sở dữ liệu..");
 
-  // Test the connection.
-  // You can use the .authenticate() function to test if the connection works.
+
 
   try {
     await db_conn.dbConnect()

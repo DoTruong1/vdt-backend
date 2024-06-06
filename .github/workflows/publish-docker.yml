@@ -14,6 +14,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: ci
+    outputs: 
+      tag: "${{ steps.meta.outputs.tags }}"
     steps:
       -
         name: Checkout
@@ -33,7 +35,7 @@ jobs:
           tag: |
             type=ref,event=branch
             type=ref,event=pr
-            type=semver,pattern={{version}}
+            type=semver,event=tag,pattern={{raw}}
       
       - 
         name: Set short sha
@@ -50,6 +52,7 @@ jobs:
           # -${{ steps.sha_short.outputs.sha_short }}
       -
         name: Build and push
+        id: capture-tag
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -60,3 +63,41 @@ jobs:
           platforms: linux/amd64, linux/arm/v8
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest,mode=max
+  modify_image_tag:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Changing the deployment of git repo
+        with:
+          repository: DoTruong1/vdt-backend-config-repo
+          token: ${{ secrets.GIT_TOKEN }}
+          ref: HEAD
+      - name: modify the image
+        run: |
+          git config user.email ${{ secrets.email }}
+          git config user.name ${{ secrets.name }}
+          echo “Working Directory: $(pwd)”
+        
+          # Navigate to the specific Helm chart directory
+          cd helm-chart-dir
+          
+          # Print values.yaml for debugging before changes
+          echo “Before modification:”
+          cat values.yaml
+          
+          sed -i '/^image:/,/^ tag:/{s/^ tag: .*/ tag: "'$TAG'"/}' values.yaml
+          
+          # Print values.yaml for debugging after changes
+          echo “After modification:”
+          cat values.yaml
+          
+          git add values.yaml
+          git commit -m “Update image tag by Github Actions Job change manifest: ${{ github.run_number }}”
+          git push origin dev
+        env:
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.GIT_TOKEN }}
+          RUN_NUMBER: ${{ github.run_number }}
+          TAG: ${{ needs.build.outputs.tag }}
+         
