@@ -67,13 +67,18 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: ci
+    env:
+      GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+      GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
+      RUN_NUMBER: ${{ github.run_number }}
+      TAG: ${{ needs.build.outputs.tag }}
     steps:
       - uses: actions/checkout@v3
         name: Changing the deployment of git repo
         with:
           repository: DoTruong1/vdt-backend-config-repo
           token: ${{ secrets.GITOPS_TOKEN }}
-          ref: master
+          ref: main
           path: ./config
       - name: modify the image
         run: |
@@ -95,6 +100,6 @@ jobs:
           
           git add values.yaml
           git commit -m “Update image tag by Github Actions Job change manifest: ${{ github.run_number }}”
-          git push origin dev
+          git push origin main
       
          
