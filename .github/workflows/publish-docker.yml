@@ -82,8 +82,9 @@ jobs:
           path: ./config
       - name: modify the image
         run: |
-          git config user.email ${{ secrets.email }}
-          git config user.name ${{ secrets.name }}
+          echo $TAG
+          git config user.email ${{ aa@gmail.com }}
+          git config user.name ${{ secrets.GIT_USERNAME }}
           echo “Working Directory: $(pwd)”
         
           # Navigate to the specific Helm chart directory
