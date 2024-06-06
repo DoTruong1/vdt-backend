@@ -71,7 +71,7 @@ jobs:
         name: Changing the deployment of git repo
         with:
           repository: DoTruong1/vdt-backend-config-repo
-          token: ${{ secrets.GIT_TOKEN }}
+          token: ${{ secrets.GITOPS_TOKEN }}
           ref: HEAD
       - name: modify the image
         run: |
@@ -97,7 +97,7 @@ jobs:
           git push origin dev
         env:
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-          GIT_PASSWORD: ${{ secrets.GIT_TOKEN }}
+          GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
           RUN_NUMBER: ${{ github.run_number }}
           TAG: ${{ needs.build.outputs.tag }}
          
