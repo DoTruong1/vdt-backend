@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ci
     outputs: 
-      tag: "${{ steps.meta.outputs.tags }}"
+      tag: ${{ steps.meta.outputs.tags }}
     steps:
       -
         name: Checkout
@@ -67,12 +67,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: ci
-    env:
-      GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-      GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
-      RUN_NUMBER: ${{ github.run_number }}
-      TAG: ${{ needs.build.outputs.tag }}
+    
     steps:
+      - env:
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.GITOPS_TOKEN }}
+          RUN_NUMBER: ${{ github.run_number }}
+          TAG: ${{ needs.build.outputs.tag }}
+        run: echo "$TAG"
       - uses: actions/checkout@v3
         name: Changing the deployment of git repo
         with:
