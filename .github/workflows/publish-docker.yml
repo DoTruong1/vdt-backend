@@ -52,22 +52,16 @@ jobs:
       - 
         name: Build and push
         id: capture-tag
-        run: |
-          docker buildx build  \
-            --file Dockerfile \
-            --platform linux/amd64,linux/arm64 \
-            --tag dotruong1910/backend:$GITHUB_REF_NAME \
-            --push .
-        # uses: docker/build-push-action@v5
-        # with:
-        #   context: .
-        #   file: ./Dockerfile
-        #   push: true
-        #   tags: "${{ steps.meta.outputs.tags }}"
-        #   platforms: "linux/amd64,linux/arm64"
-        #   labels: ${{ steps.meta.outputs.labels }}
-        #   cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest
-        #   cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest,mode=max
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: "${{ steps.meta.outputs.tags }}"
+          platforms: "linux/amd64,linux/arm64"
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/backend-cache:latest,mode=max
       
 
   modify_image_tag:
