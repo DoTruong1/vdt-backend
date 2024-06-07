@@ -93,6 +93,7 @@ jobs:
         run: |
           git config user.email 'aa@gmail.com'
           git config user.name 'DoTruong'
+          rm values.yaml.bak
           git add values.yaml
           git commit -m "Update image tag by Github Actions Job change manifest: ${{ github.run_number }}"
           git push 
