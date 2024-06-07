@@ -12,7 +12,7 @@ on:
     #   - "main"
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     environment: ci
     outputs: 
       tag: ${{ steps.test.outputs.mytag }}
@@ -61,7 +61,7 @@ jobs:
       - name: test
         id: test
         run: |
-          echo "mytag=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
+          echo "mytag=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT  
   modify_image_tag:
     needs: build
     runs-on: ubuntu-latest
