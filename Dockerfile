@@ -2,7 +2,7 @@ FROM node:18.20.2 as build
 WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm ci --only=production
+RUN npm ci --fetch-timeout=60000 --only=production
 
 
 FROM node:18.20.2-alpine3.19
