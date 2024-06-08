@@ -34,7 +34,7 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "vdt-be.labels" -}}
-app: vdt
+project: "vdt"
 {{ include "vdt-be.selectorLabels" . }}
 {{- end }}
 
