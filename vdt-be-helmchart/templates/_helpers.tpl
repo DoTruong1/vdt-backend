@@ -34,12 +34,8 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "vdt-be.labels" -}}
-helm.sh/chart: {{ include "vdt-be.chart" . }}
+app: vdt
 {{ include "vdt-be.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
@@ -47,7 +43,6 @@ Selector labels
 */}}
 {{- define "vdt-be.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "vdt-be.name" . }}
-app.kubernetes.io/instance: {{ .Chart.Name }}
 {{- end }}
 
 {{/*
