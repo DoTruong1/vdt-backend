@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const promMid = require("express-prometheus-middleware");
 const app = express();
 const morgan = require("morgan");
+const json = require("morgan-json");
 const moment = require("moment-timezone");
 const db_conn = require("./config/connect.database");
 const heatlthCheckRouters = require("./routes/healthCheck.route");
@@ -26,11 +27,11 @@ const initApp = async () => {
     morgan.token("date", function () {
       return moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss");
     });
-    app.use(
-      morgan(
-        ":remote-addr - :remote-user [:date[clf]] :method :url :status :response-time ms",
-      ),
+    const format = json(
+      ":remote-addr - :remote-user :date[clf] :method :url :status :response-time ms",
     );
+    app.use(morgan(format));
+
     app.use(
       promMid({
         metricsPath: "/metrics",
