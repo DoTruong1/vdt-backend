@@ -30,7 +30,7 @@ const initApp = async () => {
     const format = json(
       ":remote-addr - :remote-user :date[clf] :method :url :status :response-time ms",
     );
-    app.use(morgan(format));
+    app.use(morgan(":remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]"));
 
     app.use(
       promMid({
