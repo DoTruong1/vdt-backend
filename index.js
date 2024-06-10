@@ -8,13 +8,18 @@ const json = require("morgan-json");
 const moment = require("moment-timezone");
 const db_conn = require("./config/connect.database");
 const heatlthCheckRouters = require("./routes/healthCheck.route");
+const Keycloak = require("keycloak-connect");
+const session = require("express-session");
+const keyCloakConfig = require("./config/keycloak");
 // const { User } = require("./models");
 
 const routers = require("./routes");
+
+const keycloak = new Keycloak({}, keyCloakConfig);
+
 require("dotenv").config();
-
 const port = process.env.PORT || 3000;
-
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const initApp = async () => {
   console.log("Kiểm tra kết nối đến cơ sở dữ liệu..");
 
@@ -22,14 +27,18 @@ const initApp = async () => {
     await db_conn.dbConnect();
     // if (isConnectedToDB) {
     app.use(cors());
-    app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(
+      keycloak.middleware({
+        logout: "/logout",
+        admin: "/",
+      }),
+    );
+    app.use(express.json());
     morgan.token("date", function () {
       return moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss");
     });
-    const format = json(
-      ":remote-addr - :remote-user :date[clf] :method :url :status :response-time ms",
-    );
+
     app.use(
       morgan(
         ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
@@ -75,6 +84,16 @@ const initApp = async () => {
     app.use("/healthz", heatlthCheckRouters);
 
     app.use(process.env.API_PATH, routers);
+
+    app.use(function (req, res, next) {
+      res.header("Access-Control-Allow-Credentials", "true");
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept,Authorization",
+      );
+      next();
+    });
 
     app.listen(port, () => {
       console.log(`Khởi tạo server ở: http://localhost:${port}`);
