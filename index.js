@@ -36,7 +36,7 @@ const initApp = async () => {
     );
     app.use(express.json());
     morgan.token("date", function () {
-      return moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss");
+      return moment().tz("Asia/Ho_Chi_Minh").format("DD/MMM/YYYY:HH:mm:ss ZZ");
     });
 
     app.use(
